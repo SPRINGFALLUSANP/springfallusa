@@ -4,12 +4,9 @@ import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { Calendar, User, Clock, ArrowLeft, Share, ThumbsUp, Loader2, ArrowRight } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client
-const supabaseUrl = 'https://mpckiisrkczpdnyzpqpm.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wY2tpaXNya2N6cGRueXpwcXBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ4MzQwMjEsImV4cCI6MjAzMDQxMDAyMX0.ZBWcdHw1t0P4j4r0sqFxaj_aiGYAgse5FZE3MIobN8Q';
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Remove supabase imports and usage
+// Replace any supabase data fetching with static placeholder data or comments
 
 type BlogPost = {
   id: string;
@@ -31,36 +28,49 @@ const BlogPostPage = () => {
 
   useEffect(() => {
     if (slug) {
-      fetchBlogPost(slug);
+      // fetchBlogPost(slug); // Original supabase call commented out
+      // For now, using a placeholder blog post
+      setBlogPost({
+        id: '1',
+        created_at: '2023-10-27T10:00:00Z',
+        title: 'Sample Blog Post',
+        slug: 'sample-blog-post',
+        author: 'John Doe',
+        author_avatar_url: 'https://via.placeholder.com/50',
+        content: 'This is a placeholder content for a blog post. In a real application, this would be fetched from a database or API.',
+        likes: 10,
+        views: 50,
+      });
+      setIsLoading(false);
     }
   }, [slug]);
 
-  const fetchBlogPost = async (slug: string) => {
-    try {
-      setIsLoading(true);
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('slug', slug)
-        .single();
+  // const fetchBlogPost = async (slug: string) => {
+  //   try {
+  //     setIsLoading(true);
+  //     const { data, error } = await supabase
+  //       .from('blog_posts')
+  //       .select('*')
+  //       .eq('slug', slug)
+  //       .single();
 
-      if (error) {
-        console.error('Error fetching blog post:', error);
-        setNotFound(true);
-      }
+  //     if (error) {
+  //       console.error('Error fetching blog post:', error);
+  //       setNotFound(true);
+  //     }
 
-      if (data) {
-        setBlogPost(data);
-      } else {
-        setNotFound(true);
-      }
-    } catch (error) {
-      console.error('Error fetching blog post:', error);
-      setNotFound(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     if (data) {
+  //       setBlogPost(data);
+  //     } else {
+  //       setNotFound(true);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching blog post:', error);
+  //     setNotFound(true);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   if (notFound) {
     return <Navigate to="/blog" replace />;

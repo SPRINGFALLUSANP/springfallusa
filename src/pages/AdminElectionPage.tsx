@@ -39,17 +39,40 @@ const AdminElectionPage = () => {
   const user = { id: 'mock-user', name: 'Student' };
 
   useEffect(() => {
-    fetchElections();
+    // Remove supabase usage and replace with static placeholder data or comments
+    // For now, we'll just set a mock election as active
+    const mockElection: Election = {
+      id: '1',
+      title: 'Spring/Fall USA Admin Elections 2025',
+      description: 'Vote for the next group of administrators who will guide our community and help students with their F-1 visa journey.',
+      start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
+      end_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days from now
+      status: 'active' as const
+    };
+    setActiveElection(mockElection);
+    fetchCandidates(mockElection.id);
+    checkUserVote(mockElection.id);
+    updateTimeRemaining(mockElection.end_date);
   }, []);
 
   useEffect(() => {
     if (activeElection) {
-      fetchCandidates(activeElection.id);
-      checkUserVote(activeElection.id);
+      // Remove supabase usage and replace with static placeholder data or comments
+      // For now, we'll just set a mock election as active
+      const mockElection: Election = {
+        id: '1',
+        title: 'Spring/Fall USA Admin Elections 2025',
+        description: 'Vote for the next group of administrators who will guide our community and help students with their F-1 visa journey.',
+        start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
+        end_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days from now
+        status: 'active' as const
+      };
+      fetchCandidates(mockElection.id);
+      checkUserVote(mockElection.id);
       
-      if (activeElection.status === 'active') {
+      if (mockElection.status === 'active') {
         const interval = setInterval(() => {
-          updateTimeRemaining(activeElection.end_date);
+          updateTimeRemaining(mockElection.end_date);
         }, 1000);
         
         return () => clearInterval(interval);
@@ -60,35 +83,24 @@ const AdminElectionPage = () => {
   const fetchElections = async () => {
     try {
       setIsLoading(true);
-      const { data, error } = await supabase
-        .from('elections')
-        .select('*')
-        .order('start_date', { ascending: false });
-
-      if (error) {
-        throw error;
-      }
-
-      // Add mock elections if none exist
-      const electionsData = data && data.length > 0 
-        ? data 
-        : [
-            {
-              id: '1',
-              title: 'Spring/Fall USA Admin Elections 2025',
-              description: 'Vote for the next group of administrators who will guide our community and help students with their F-1 visa journey.',
-              start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
-              end_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days from now
-              status: 'active' as const
-            }
-          ];
+      // Remove supabase usage and replace with static placeholder data or comments
+      const mockElections: Election[] = [
+        {
+          id: '1',
+          title: 'Spring/Fall USA Admin Elections 2025',
+          description: 'Vote for the next group of administrators who will guide our community and help students with their F-1 visa journey.',
+          start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
+          end_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days from now
+          status: 'active' as const
+        }
+      ];
       
-      setElections(electionsData);
+      setElections(mockElections);
       
       // Set the active election (most recent active or upcoming)
-      const active = electionsData.find(e => e.status === 'active');
-      const upcoming = electionsData.find(e => e.status === 'upcoming');
-      setActiveElection(active || upcoming || electionsData[0]);
+      const active = mockElections.find(e => e.status === 'active');
+      const upcoming = mockElections.find(e => e.status === 'upcoming');
+      setActiveElection(active || upcoming || mockElections[0]);
     } catch (error) {
       console.error('Error fetching elections:', error);
     } finally {
@@ -142,17 +154,47 @@ const AdminElectionPage = () => {
         return;
       }
 
-      const { data, error } = await supabase
-        .from('candidates')
-        .select('*')
-        .eq('election_id', electionId)
-        .order('votes_count', { ascending: false });
-
-      if (error) {
-        throw error;
-      }
-
-      setCandidates(data || []);
+      // Remove supabase usage and replace with static placeholder data or comments
+      // For now, we'll just set a mock election as active
+      const mockCandidates: Candidate[] = [
+        {
+          id: '1',
+          name: 'Sarah Johnson',
+          bio: 'International student advisor with 5+ years of experience. Passionate about helping students navigate the visa process.',
+          image_url: 'https://i.pravatar.cc/150?u=sarah',
+          votes_count: 145,
+          user_id: '1',
+          election_id: '1'
+        },
+        {
+          id: '2',
+          name: 'Michael Rodriguez',
+          bio: 'Former F-1 student, now working as an immigration consultant. Wants to make the visa process more transparent and accessible.',
+          image_url: 'https://i.pravatar.cc/150?u=michael',
+          votes_count: 132,
+          user_id: '2',
+          election_id: '1'
+        },
+        {
+          id: '3',
+          name: 'Priya Patel',
+          bio: 'Graduate student with a passion for community building. Aims to expand our support network and create more resources.',
+          image_url: 'https://i.pravatar.cc/150?u=priya',
+          votes_count: 127,
+          user_id: '3',
+          election_id: '1'
+        },
+        {
+          id: '4',
+          name: 'David Kim',
+          bio: 'Education technology specialist focused on creating digital tools to simplify the visa application process.',
+          image_url: 'https://i.pravatar.cc/150?u=david',
+          votes_count: 98,
+          user_id: '4',
+          election_id: '1'
+        }
+      ];
+      setCandidates(mockCandidates);
     } catch (error) {
       console.error('Error fetching candidates:', error);
     }
@@ -218,39 +260,43 @@ const AdminElectionPage = () => {
         return;
       }
 
-      // Insert the vote
-      const { error } = await supabase
-        .from('votes')
-        .insert([
-          { 
-            user_id: user.id, 
-            candidate_id: candidateId, 
-            election_id: activeElection.id,
-            created_at: new Date().toISOString()
-          }
-        ]);
+      // Remove supabase usage and replace with static placeholder data or comments
+      // For now, we'll just set a mock election as active
+      if (activeElection.id === '1') {
+        // Insert the vote
+        // const { error } = await supabase
+        //   .from('votes')
+        //   .insert([
+        //     { 
+        //       user_id: user.id, 
+        //       candidate_id: candidateId, 
+        //       election_id: activeElection.id,
+        //       created_at: new Date().toISOString()
+        //     }
+        //   ]);
 
-      if (error) throw error;
+        // if (error) throw error;
 
-      // Update the votes count for the candidate
-      const { error: updateError } = await supabase.rpc('increment_votes', {
-        candidate_id: candidateId
-      });
+        // // Update the votes count for the candidate
+        // const { error: updateError } = await supabase.rpc('increment_votes', {
+        //   candidate_id: candidateId
+        // });
 
-      if (updateError) throw updateError;
+        // if (updateError) throw updateError;
 
-      // Update local state
-      setCandidates(
-        candidates.map(candidate => 
-          candidate.id === candidateId 
-            ? { ...candidate, votes_count: candidate.votes_count + 1 } 
-            : candidate
-        )
-      );
-      
-      setHasVoted(true);
-      setVotedFor(candidateId);
-      toast.success('Your vote has been recorded!');
+        // Update local state
+        setCandidates(
+          candidates.map(candidate => 
+            candidate.id === candidateId 
+              ? { ...candidate, votes_count: candidate.votes_count + 1 } 
+              : candidate
+          )
+        );
+        
+        setHasVoted(true);
+        setVotedFor(candidateId);
+        toast.success('Your vote has been recorded!');
+      }
     } catch (error: any) {
       console.error('Error voting:', error);
       toast.error(`Failed to record your vote: ${error.message}`);

@@ -5,12 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Calendar, User, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client
-const supabaseUrl = 'https://mpckiisrkczpdnyzpqpm.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wY2tpaXNya2N6cGRueXpwcXBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ4MzQwMjEsImV4cCI6MjAzMDQxMDAyMX0.ZBWcdHw1t0P4j4r0sqFxaj_aiGYAgse5FZE3MIobN8Q';
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Remove supabase imports and usage
+// Replace any supabase data fetching with static placeholder data or comments
 
 type BlogPost = {
   id: string;
@@ -30,28 +27,28 @@ const BlogPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchBlogPosts();
+    // fetchBlogPosts(); // Original supabase call commented out
   }, []);
 
-  const fetchBlogPosts = async () => {
-    try {
-      setIsLoading(true);
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .order('created_at', { ascending: false });
+  // const fetchBlogPosts = async () => { // Original supabase call commented out
+  //   try { // Original supabase call commented out
+  //     setIsLoading(true); // Original supabase call commented out
+  //     const { data, error } = await supabase // Original supabase call commented out
+  //       .from('blog_posts') // Original supabase call commented out
+  //       .select('*') // Original supabase call commented out
+  //       .order('created_at', { ascending: false }); // Original supabase call commented out
 
-      if (error) {
-        throw error;
-      }
+  //     if (error) { // Original supabase call commented out
+  //       throw error; // Original supabase call commented out
+  //     } // Original supabase call commented out
 
-      setBlogPosts(data || []);
-    } catch (error) {
-      console.error('Error fetching blog posts:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     setBlogPosts(data || []); // Original supabase call commented out
+  //   } catch (error) { // Original supabase call commented out
+  //     console.error('Error fetching blog posts:', error); // Original supabase call commented out
+  //   } finally { // Original supabase call commented out
+  //     setIsLoading(false); // Original supabase call commented out
+  //   } // Original supabase call commented out
+  // }; // Original supabase call commented out
 
   const filteredBlogPosts = blogPosts.filter(post =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
